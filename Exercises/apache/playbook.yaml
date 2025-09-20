@@ -1,0 +1,28 @@
+---
+- name: Install apache2
+  hosts: web
+  become: yes
+  tasks:
+    - name: Ensure apache2 is at the latest version
+      ansible.builtin.yum:
+        name: httpd
+        state: present
+        update_cache: yes
+
+    - name: copy file with owner and permissions
+      ansible.builtin.copy:
+        src: /home/ansible/Project/index.html
+        dest: /var/www/html/index.html
+        owner: root
+        group: root
+        mode: '0644'
+    
+    - name: Ensure apache2 is running
+      ansible.builtin.service:
+        name: httpd
+        state: started
+        enabled: yes
+    
+    - name: show public IP
+      ansible.builtin.debug:
+        msg: "Public IP is {{ hostvars[inventory_hostname]['ansible_default_ipv4']['address'] }}"
