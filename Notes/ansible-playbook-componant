@@ -1,0 +1,74 @@
+📝 Playbook
+A YAML file that defines automation steps.
+
+Contains one or more plays targeting specific host groups.
+
+Example:
+
+yaml
+- name: Update web servers
+  hosts: webservers
+  tasks:
+    - name: Install Apache
+      yum:
+        name: httpd
+        state: latest
+🎭 Play
+A unit of execution in a playbook.
+
+Maps hosts to tasks and runs them in order.
+
+Example:
+
+yaml
+- name: Install Nginx
+  hosts: webservers
+  tasks:
+    - name: Install Nginx
+      apt:
+        name: nginx
+        state: present
+🧩 Modules
+Core components that perform actions (e.g., install, copy, start).
+
+Used inside tasks.
+
+Example:
+
+yaml
+- name: Install Nginx
+  apt:
+    name: nginx
+    state: present
+✅ Tasks
+Individual steps in a play.
+
+Use modules to perform operations.
+
+Example:
+
+yaml
+- name: Start Nginx
+  service:
+    name: nginx
+    state: started
+📦 Collections
+Bundles of roles, modules, plugins, and docs.
+
+Makes sharing and reuse easier.
+
+Structure:
+
+Code
+my_collection/
+├── roles/
+│   └── my_role/
+│       └── tasks/main.yml
+├── plugins/modules/my_module.py
+└── README.md
+Usage:
+
+yaml
+- name: Use custom module
+  community.general.my_module:
+    option: value
